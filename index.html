@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>双人像素小屋</title>
+<title>小屋</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:monospace}
 body{background:#111;color:#fff;padding:20px}
@@ -16,13 +16,7 @@ body{background:#111;color:#fff;padding:20px}
 </style>
 </head>
 <body>
-<div class="box" id="lock">
-<h3>输入密码进入小屋</h3>
-<input class="ipt" id="pwd" placeholder="密码：pals06">
-<button class="btn" id="unlockBtn">解锁</button>
-</div>
-
-<div class="box" id="home" style="display:none">
+<div class="box" id="home">
 <div class="pixel-box">
 <div class="person">
 <pre>
@@ -45,42 +39,18 @@ body{background:#111;color:#fff;padding:20px}
 </div>
 <div class="msg" id="chatbox"></div>
 <input class="ipt" id="chat" placeholder="发消息">
-<button class="btn" id="sendBtn">发送</button>
+<button class="btn" onclick="sendMsg()">发送</button>
 </div>
 
 <script>
-//读取本地留言
-let save = JSON.parse(localStorage.getItem('msg') || '[]');
-document.getElementById('chatbox').innerText = save.join('\n');
-
-//绑定解锁按钮点击
-document.getElementById('unlockBtn').addEventListener('click',function(){
-    let pwdVal = document.getElementById('pwd').value.trim();
-    if(pwdVal === 'pals06'){
-        document.getElementById('lock').style.display = 'none';
-        document.getElementById('home').style.display = 'block';
-    }else{
-        alert('密码错误');
-    }
-})
-
-//绑定发送按钮点击
-document.getElementById('sendBtn').addEventListener('click',function(){
-    let val = document.getElementById('chat').value.trim();
-    if(!val) return;
-    save.push(val);
-    localStorage.setItem('msg',JSON.stringify(save));
-    document.getElementById('chatbox').innerText = save.join('\n');
-    document.getElementById('chat').value = '';
-})
-//回车快捷发送
-document.getElementById('chat').addEventListener('keydown',e=>{
-    if(e.key==='Enter')document.getElementById('sendBtn').click();
-})
-//密码框回车解锁
-document.getElementById('pwd').addEventListener('keydown',e=>{
-    if(e.key==='Enter')document.getElementById('unlockBtn').click();
-})
+function sendMsg(){
+    let txt = chat.value.trim()
+    if(!txt)return
+    chatbox.innerText += txt+'\n'
+    chat.value=''
+}
+//回车发送
+document.getElementById('chat').onkeydown=e=>{if(e.key=='Enter')sendMsg()}
 </script>
 </body>
 </html>
