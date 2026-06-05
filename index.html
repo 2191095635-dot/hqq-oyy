@@ -1,56 +1,201 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>小屋</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}
-body{background:#111;color:#fff;padding:20px}
-.box{max-width:520px;margin:30px auto;border:3px solid #7cf;padding:20px;border-radius:8px}
-.pixel-box{display:flex;gap:40px;justify-content:center;margin:20px 0}
-.person{text-align:center}
-.msg{margin:15px 0;padding:10px;border:1px #5af dashed;min-height:80px;white-space:pre-line}
-.ipt{width:100%;padding:8px;margin:8px 0}
-.btn{padding:8px 16px;background:#25c;color:#fff;border:none;border-radius:4px;cursor:pointer}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+transition:0.25s all ease;
+font-family:"MS PGothic",monospace;
+}
+body{
+background:#2c283d;
+color:#e9e5f2;
+padding:40px 20px;
+}
+.wrap{
+max-width:720px;
+margin:0 auto;
+}
+/*双人像素人物区域*/
+.avatar-group{
+display:flex;
+justify-content:center;
+gap:60px;
+margin-bottom:45px;
+}
+.pixel-char{
+line-height:14px;
+font-size:11px;
+color:#ffdfb4;
+white-space:pre;
+}
+/*导航*/
+.nav{
+display:flex;
+gap:14px;
+justify-content:center;
+margin-bottom:35px;
+flex-wrap:wrap;
+}
+.nav button{
+background:#3c3752;
+border:none;
+color:#e9e5f2;
+padding:9px 18px;
+border-radius:3px;
+cursor:pointer;
+}
+.nav button:hover{
+background:#58507a;
+}
+/*内容卡片 参考dotown卡片样式*/
+.content-card{
+background:#38334d;
+padding:24px;
+border-radius:4px;
+display:none;
+}
+.content-card.active{
+display:block;
+}
+input,textarea{
+width:100%;
+background:#2c283d;
+border:1px solid #554f70;
+margin:7px 0;
+padding:10px;
+color:#fff;
+border-radius:3px;
+outline:none;
+}
+.submit{
+width:100%;
+padding:9px;
+border:none;
+background:#9987bb;
+color:#2c283d;
+font-weight:500;
+cursor:pointer;
+border-radius:3px;
+}
+.record-item{
+background:#312c44;
+padding:10px;
+margin:8px 0;
+border-radius:3px;
+}
+.star{color:#ffdfb4;}
 </style>
 </head>
 <body>
-<div class="box" id="home">
-<div class="pixel-box">
-<div class="person">
-<pre>
- ███
-█░░░█
-█░░░█
- ███
+<div class="wrap">
+  <!--两个日系像素小人，无任何中文名字-->
+  <div class="avatar-group">
+<pre class="pixel-char">
+  ■■■
+ ■○△○■
+ ■￣ω￣■
+■■■■■■■
+■       ■
+■■■■■■■
 </pre>
-<p>清宝</p>
-</div>
-<div class="person">
-<pre>
- ███
-█░░░█
-█░░░█
- ███
+<pre class="pixel-char">
+  □□□
+ □◇●◇□
+ □﹏﹏□
+□□□□□□□
+□       □
+□□□□□□□
 </pre>
-<p>莹宝</p>
-</div>
-</div>
-<div class="msg" id="chatbox"></div>
-<input class="ipt" id="chat" placeholder="发消息">
-<button class="btn" onclick="sendMsg()">发送</button>
+  </div>
+
+  <div class="nav">
+    <button onclick="tab('home')">Home</button>
+    <button onclick="tab('chat')">Chat</button>
+    <button onclick="tab('travel')">Travel</button>
+    <button onclick="tab('food')">Food</button>
+  </div>
+
+  <div class="content-card active" id="home">
+    <p>Private private space for two.</p>
+  </div>
+
+  <div class="content-card" id="chat">
+    <textarea id="chatInput" placeholder="Message..."></textarea>
+    <input type="file" accept="image/*">
+    <button class="submit" onclick="addChat()">Send</button>
+    <div id="chatList"></div>
+  </div>
+
+  <div class="content-card" id="travel">
+    <input id="loc" placeholder="Location">
+    <input type="file" accept="image/*">
+    <div class="star">★★★★★</div>
+    <textarea id="travelNote" placeholder="Memo"></textarea>
+    <button class="submit" onclick="addTravel()">Save</button>
+    <div id="travelList"></div>
+  </div>
+
+  <div class="content-card" id="food">
+    <input id="foodName" placeholder="Store/Food">
+    <input type="file" accept="image/*">
+    <div class="star">★★★★★</div>
+    <textarea id="foodNote" placeholder="Review"></textarea>
+    <button class="submit" onclick="addFood()">Save</button>
+    <div id="foodList"></div>
+  </div>
 </div>
 
 <script>
-function sendMsg(){
-    let txt = chat.value.trim()
-    if(!txt)return
-    chatbox.innerText += txt+'\n'
-    chat.value=''
+//切换页面
+function tab(id){
+document.querySelectorAll('.content-card').forEach(x=>x.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 }
-//回车发送
-document.getElementById('chat').onkeydown=e=>{if(e.key=='Enter')sendMsg()}
+//本地存储
+const get =k=>JSON.parse(localStorage.getItem(k)||'[]');
+const set=(k,d)=>localStorage.setItem(k,JSON.stringify(d));
+
+//聊天
+function addChat(){
+let val=chatInput.value.trim();
+if(!val)return;
+let arr=get('chat');arr.push(val);set('chat',arr);
+chatInput.value='';renderChat();
+}
+function renderChat(){
+let html='';get('chat').forEach(v=>html+=`<div class="record-item">${v}</div>`);
+chatList.innerHTML=html;
+}
+
+//旅行
+function addTravel(){
+let o={loc:loc.value,n:travelNote.value};
+let arr=get('tra');arr.push(o);set('tra',arr);
+loc.value='';travelNote.value='';renderTra();
+}
+function renderTra(){
+let html='';get('tra').forEach(v=>html+=`<div class="record-item">${v.loc}<br>${v.n}</div>`);
+travelList.innerHTML=html;
+}
+
+//美食
+function addFood(){
+let o={n:foodName.value,r:foodNote.value};
+let arr=get('fd');arr.push(o);set('fd',arr);
+foodName.value='';foodNote.value='';renderFood();
+}
+function renderFood(){
+let html='';get('fd').forEach(v=>html+=`<div class="record-item">${v.n}<br>${v.r}</div>`);
+foodList.innerHTML=html;
+}
+
+//初始化渲染
+renderChat();renderTra();renderFood();
 </script>
 </body>
 </html>
