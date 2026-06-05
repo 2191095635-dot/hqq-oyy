@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PACT</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.28s ease;
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: "Courier New", monospace;
+      background: #232036;
+      color: #f0f0e6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .lock {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #232036;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 999;
+    }
+    .lock input {
+      padding: 12px 16px;
+      background: #322e47;
+      border: none;
+      border-radius: 6px;
+      color: #f0f0e6;
+      outline: none;
+      font-size: 16px;
+    }
+    .lock button {
+      padding: 10px 18px;
+      background: #b99fd9;
+      border: none;
+      border-radius: 6px;
+      color: #232036;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .container {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .chars {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: center;
+      margin: 40px 0;
+    }
+    .pixel {
+      width: 130px;
+      height: 130px;
+      background: #b99fd9;
+      border-radius: 8px;
+      position: relative;
+    }
+    .nav {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .nav button {
+      background: #322e47;
+      color: #f0f0e6;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .nav button:hover {
+      background: #b99fd9;
+      color: #232036;
+    }
+    .page {
+      display: none;
+      background: #322e47;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(185,159,217,0.1);
+    }
+    .page.active {
+      display: block;
+    }
+    .upload {
+      margin: 14px 0;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 6px 0;
+      padding: 10px;
+      background: #232036;
+      border: none;
+      border-radius: 6px;
+      color: #f0f0e6;
+      outline: none;
+    }
+    .stars {
+      color: #f9d578;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lock" id="lock">
+    <h3>ENTER PASSWORD</h3>
+    <input type="password" id="pwd" placeholder="Password">
+    <button onclick="unlock()">ENTER</button>
+  </div>
+
+  <div class="container" id="app">
+    <div class="chars">
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+    </div>
+
+    <div class="nav">
+      <button onclick="go('home')">Home</button>
+      <button onclick="go('chat')">Chat</button>
+      <button onclick="go('travel')">Travel</button>
+      <button onclick="go('food')">Food</button>
+    </div>
+
+    <div class="page active" id="home">
+      <h2>Welcome</h2>
+      <p>Private space for you two.</p>
+    </div>
+
+    <div class="page" id="chat">
+      <h2>Chat</h2>
+      <textarea placeholder="Say something..."></textarea>
+      <div class="upload"><input type="file"></div>
+      <button>SEND</button>
+    </div>
+
+    <div class="page" id="travel">
+      <h2>Travel</h2>
+      <input placeholder="Location">
+      <input type="file">
+      <div class="stars">★★★★★</div>
+      <textarea placeholder="Notes"></textarea>
+      <button>SAVE</button>
+    </div>
+
+    <div class="page" id="food">
+      <h2>Food</h2>
+      <input placeholder="Meal / Shop">
+      <input type="file">
+      <div class="stars">★★★★★</div>
+      <textarea placeholder="Review"></textarea>
+      <button>SAVE</button>
+    </div>
+  </div>
+
+  <script>
+    function unlock() {
+      const pw = document.getElementById("pwd").value;
+      if (pw === "1234") {
+        document.getElementById("lock").style.display = "none";
+        document.getElementById("app").style.display = "block";
+      }
+    }
+    function go(page) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById(page).classList.add("active");
+    }
+  </script>
+</body>
+</html>
