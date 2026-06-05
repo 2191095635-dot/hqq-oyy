@@ -1,183 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PACT</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      transition: all 0.28s ease;
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: "Courier New", monospace;
-      background: #232036;
-      color: #f0f0e6;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .lock {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: #232036;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      z-index: 999;
-    }
-    .lock input {
-      padding: 12px 16px;
-      background: #322e47;
-      border: none;
-      border-radius: 6px;
-      color: #f0f0e6;
-      outline: none;
-      font-size: 16px;
-    }
-    .lock button {
-      padding: 10px 18px;
-      background: #b99fd9;
-      border: none;
-      border-radius: 6px;
-      color: #232036;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .container {
-      display: none;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .chars {
-      display: flex;
-      gap: 40px;
-      justify-content: center;
-      align-items: center;
-      margin: 40px 0;
-    }
-    .pixel {
-      width: 130px;
-      height: 130px;
-      background: #b99fd9;
-      border-radius: 8px;
-      position: relative;
-    }
-    .nav {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-    }
-    .nav button {
-      background: #322e47;
-      color: #f0f0e6;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .nav button:hover {
-      background: #b99fd9;
-      color: #232036;
-    }
-    .page {
-      display: none;
-      background: #322e47;
-      padding: 24px;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(185,159,217,0.1);
-    }
-    .page.active {
-      display: block;
-    }
-    .upload {
-      margin: 14px 0;
-    }
-    input, textarea, button {
-      width: 100%;
-      margin: 6px 0;
-      padding: 10px;
-      background: #232036;
-      border: none;
-      border-radius: 6px;
-      color: #f0f0e6;
-      outline: none;
-    }
-    .stars {
-      color: #f9d578;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>双人像素小屋</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}
+body{background:#111;color:#fff;padding:20px}
+.box{max-width:520px;margin:30px auto;border:3px solid #7cf;padding:20px;border-radius:8px}
+.pixel-box{display:flex;gap:40px;justify-content:center;margin:20px 0}
+.person{text-align:center}
+.msg{margin:15px 0;padding:10px;border:1px #5af dashed;min-height:80px;white-space:pre-line}
+.ipt{width:100%;padding:8px;margin:8px 0}
+.btn{padding:8px 16px;background:#25c;color:#fff;border:none;border-radius:4px;cursor:pointer}
+</style>
 </head>
 <body>
+<div class="box" id="lock">
+<h3>输入密码进入小屋</h3>
+<input class="ipt" id="pwd" placeholder="密码：pals06">
+<button class="btn" id="unlockBtn">解锁</button>
+</div>
 
-  <div class="lock" id="lock">
-    <h3>ENTER PASSWORD</h3>
-    <input type="password" id="pwd" placeholder="Password">
-    <button onclick="unlock()">ENTER</button>
-  </div>
+<div class="box" id="home" style="display:none">
+<div class="pixel-box">
+<div class="person">
+<pre>
+ ███
+█░░░█
+█░░░█
+ ███
+</pre>
+<p>清宝</p>
+</div>
+<div class="person">
+<pre>
+ ███
+█░░░█
+█░░░█
+ ███
+</pre>
+<p>莹宝</p>
+</div>
+</div>
+<div class="msg" id="chatbox"></div>
+<input class="ipt" id="chat" placeholder="发消息">
+<button class="btn" id="sendBtn">发送</button>
+</div>
 
-  <div class="container" id="app">
-    <div class="chars">
-      <div class="pixel"></div>
-      <div class="pixel"></div>
-    </div>
+<script>
+//读取本地留言
+let save = JSON.parse(localStorage.getItem('msg') || '[]');
+document.getElementById('chatbox').innerText = save.join('\n');
 
-    <div class="nav">
-      <button onclick="go('home')">Home</button>
-      <button onclick="go('chat')">Chat</button>
-      <button onclick="go('travel')">Travel</button>
-      <button onclick="go('food')">Food</button>
-    </div>
-
-    <div class="page active" id="home">
-      <h2>Welcome</h2>
-      <p>Private space for you two.</p>
-    </div>
-
-    <div class="page" id="chat">
-      <h2>Chat</h2>
-      <textarea placeholder="Say something..."></textarea>
-      <div class="upload"><input type="file"></div>
-      <button>SEND</button>
-    </div>
-
-    <div class="page" id="travel">
-      <h2>Travel</h2>
-      <input placeholder="Location">
-      <input type="file">
-      <div class="stars">★★★★★</div>
-      <textarea placeholder="Notes"></textarea>
-      <button>SAVE</button>
-    </div>
-
-    <div class="page" id="food">
-      <h2>Food</h2>
-      <input placeholder="Meal / Shop">
-      <input type="file">
-      <div class="stars">★★★★★</div>
-      <textarea placeholder="Review"></textarea>
-      <button>SAVE</button>
-    </div>
-  </div>
-
-  <script>
-    function unlock() {
-      const pw = document.getElementById("pwd").value;
-      if (pw === "1234") {
-        document.getElementById("lock").style.display = "none";
-        document.getElementById("app").style.display = "block";
-      }
+//绑定解锁按钮点击
+document.getElementById('unlockBtn').addEventListener('click',function(){
+    let pwdVal = document.getElementById('pwd').value.trim();
+    if(pwdVal === 'pals06'){
+        document.getElementById('lock').style.display = 'none';
+        document.getElementById('home').style.display = 'block';
+    }else{
+        alert('密码错误');
     }
-    function go(page) {
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-      document.getElementById(page).classList.add("active");
-    }
-  </script>
+})
+
+//绑定发送按钮点击
+document.getElementById('sendBtn').addEventListener('click',function(){
+    let val = document.getElementById('chat').value.trim();
+    if(!val) return;
+    save.push(val);
+    localStorage.setItem('msg',JSON.stringify(save));
+    document.getElementById('chatbox').innerText = save.join('\n');
+    document.getElementById('chat').value = '';
+})
+//回车快捷发送
+document.getElementById('chat').addEventListener('keydown',e=>{
+    if(e.key==='Enter')document.getElementById('sendBtn').click();
+})
+//密码框回车解锁
+document.getElementById('pwd').addEventListener('keydown',e=>{
+    if(e.key==='Enter')document.getElementById('unlockBtn').click();
+})
+</script>
 </body>
 </html>
