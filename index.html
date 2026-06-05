@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fefbf5 0%, #faf7f2 100%);
+            color: #2d2d2d;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+            overflow-x: hidden;
+        }
+
+        body {
+            scroll-behavior: smooth;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* LOGIN */
+        #loginScreen {
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-wrapper {
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .login-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #2d2d2d;
+            letter-spacing: -1px;
+        }
+
+        .login-header p {
+            color: #888;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .login-box {
+            background: #ffffff;
+            border: 2px solid #f0f0f0;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d2d2d;
+            margin-bottom: 0.6rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: #f9f8f7;
+            border: 2px solid #f0f0f0;
+            border-radius: 8px;
+            color: #2d2d2d;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #FFB347;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #FFB347 0%, #FF9F43 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 179, 71, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 179, 71, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        /* SELECT CHARACTER */
+        #selectScreen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* SELECT SCREEN */
+        #selectScreen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deco-items-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .deco-sprite {
+            position: absolute;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .deco-sprite1 {
+            width: 120px;
+            height: 120px;
+            top: 5%;
+            left: 2%;
+            opacity: 0.5;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .deco-sprite2 {
+            width: 100px;
+            height: 100px;
+            top: 15%;
+            right: 3%;
+            opacity: 0.4;
+            animation: float 5s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+
+        .deco-sprite3 {
+            width: 140px;
+            height: 140px;
+            bottom: 10%;
+            right: 2%;
+            opacity: 0.45;
+            animation: float 6s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        .deco-sprite4 {
+            width: 110px;
+            height: 80px;
+            bottom: 12%;
+            left: 2%;
+            opacity: 0.4;
+            animation: float 4.5s ease-in-out infinite;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .select-wrapper {
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .select-header {
+            margin-bottom: 3rem;
+        }
+
+        .select-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #2d2d2d;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #FFB347, #ff8c94);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .select-header p {
+            color: #888;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 4rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 轮播样式 */
+        .char-carousel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .carousel-container {
+            width: 360px;
+            height: 480px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-slot {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #FFB347;
+            background: white;
+            color: #FFB347;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .carousel-btn:hover {
+            background: #FFB347;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e8e8e8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #FFB347;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .indicator:hover {
+            background: #FF9F43;
+        }
+
+        .char-item {
+            background: transparent;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .char-item:hover {
+            transform: scale(1.05);
+        }
+
+        .char-pixel {
+            width: 100%;
+            height: 360px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            overflow: visible;
+        }
+
+        .char-pixel img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+            transition: all 0.3s ease;
+        }
+
+        .char-item:hover .char-pixel img {
+            filter: drop-shadow(0 12px 24px rgba(255, 179, 71, 0.2));
+        }
+
+        .char-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .char-desc {
+            font-size: 1rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        /* MAIN */
+        #mainScreen {
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 2px solid #f0f0f0;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            letter-spacing: -1px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 0.65rem 1.2rem;
+            background: #f5f3f0;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            color: #2d2d2d;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-btn:hover {
+            border-color: #FFB347;
+            background: #fffbf5;
+        }
+
+        .nav-btn.active {
+            background: #FFB347;
+            border-color: #FFB347;
+            color: white;
+        }
+
+        .logout-btn {
+            padding: 0.65rem 1.2rem;
+            background: #f0e8e0;
+            border: 2px solid #e8e0d8;
+            border-radius: 8px;
+            color: #2d2d2d;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .logout-btn:hover {
+            background: #e8ddd2;
+            border-color: #ddd2c7;
+        }
+
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .characters-display {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 400px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem 2rem 2rem;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .character-container {
+            width: 250px;
+            height: 400px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+        }
+
+        .character-sprite {
+            width: 200px;
+            height: 300px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: bottom center;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            animation: idle 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .character-sprite.left {
+            animation: idleLeft 3s ease-in-out infinite;
+        }
+
+        .character-sprite.right {
+            animation: idleRight 3s ease-in-out infinite;
+        }
+
+        .character-sprite.interact {
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        .character-name {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 700;
+            color: #2d2d2d;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes idle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes idleLeft {
+            0%, 100% { transform: scaleX(-1) translateY(0); }
+            50% { transform: scaleX(-1) translateY(-10px); }
+        }
+
+        @keyframes idleRight {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
+            75% { transform: translateY(-18px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .carousel-slot.fade-out {
+            animation: fadeOut 0.4s ease-out forwards;
+        }
+
+        .carousel-slot.fade-in {
+            animation: fadeInScale 0.4s ease-out forwards;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #2d2d2d;
+        }
+
+        /* HOME */
+        .home-section {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .home-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            letter-spacing: -0.5px;
+        }
+
+        .home-title span {
+            background: linear-gradient(135deg, #FFB347, #FF9F43, #ff8c94);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            align-items: center;
+        }
+
+        .home-card {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .home-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #FFB347, #ff8c94, #c7f0d8, #FFB347);
+            background-size: 200% 100%;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .home-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 16px 40px rgba(255, 179, 71, 0.15);
+            border-color: rgba(255, 179, 71, 0.3);
+        }
+
+        .pixel-character-img {
+            width: 100%;
+            height: 280px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .card-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .home-deco-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .deco-item {
+            background: linear-gradient(135deg, #fff5e6, #fffbf5);
+            border: 2px solid #f0f0f0;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #2d2d2d;
+            transition: all 0.3s ease;
+        }
+
+        .deco-item:hover {
+            border-color: #FFB347;
+            background: #fffbf5;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .card:hover {
+            border-color: #FFB347;
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-meta {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        .card-text {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .card-rating {
+            font-size: 1.1rem;
+            color: #FFB347;
+            letter-spacing: 3px;
+            margin: 1rem 0;
+        }
+
+        .card-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-img:hover {
+            transform: scale(1.05);
+            border-color: #FFB347;
+        }
+
+        /* TIMELINE */
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #FFB347 0%, #FF9F43 100%);
+            border-radius: 50%;
+            margin-right: 1.5rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 4px rgba(255, 179, 71, 0.2);
+        }
+
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% + 2rem);
+            background: linear-gradient(180deg, #FFB347 0%, #FF9F43 100%);
+            opacity: 0.4;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 1.2rem;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: #FFB347;
+            box-shadow: 0 4px 12px rgba(255, 179, 71, 0.2);
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: #999;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .timeline-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.6rem;
+        }
+
+        .timeline-notes {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .timeline-photos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .timeline-photo {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #e8e8e8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-photo:hover {
+            transform: scale(1.05);
+            border-color: #FFB347;
+        }
+
+        .timeline-rating {
+            color: #FFB347;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 0.6rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem;
+            background: #f9f8f7;
+            border: 2px solid #f0f0f0;
+            border-radius: 8px;
+            color: #2d2d2d;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FFB347;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .star-rating span {
+            cursor: pointer;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+            color: #FFB347;
+        }
+
+        .star-rating span:hover,
+        .star-rating span.active {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+
+        .file-upload {
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fefbf5;
+        }
+
+        .file-upload:hover {
+            border-color: #FFB347;
+            background: #fffbf5;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .preview-imgs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .preview-img {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #f0f0f0;
+        }
+
+        .preview-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-img .del {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .preview-img:hover .del {
+            opacity: 1;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.95rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFB347 0%, #FF9F43 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 179, 71, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 179, 71, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f3f0;
+            color: #2d2d2d;
+            border: 2px solid #e8e8e8;
+        }
+
+        .btn-secondary:hover {
+            background: #fffbf5;
+            border-color: #FFB347;
+        }
+
+        .btn-small {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            width: auto;
+        }
+
+        .btn-danger {
+            background: #ff8c94;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff6b6b;
+        }
+
+        .emoji-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .emoji-btn:hover {
+            transform: scale(1.3);
+            background: rgba(255, 179, 71, 0.1);
+        }
+
+        /* MESSAGES */
+        .messages-box {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: 500px;
+            overflow-y: auto;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f9f8f7;
+            border-left: 4px solid #4ECDC4;
+            border-radius: 6px;
+            animation: msgSlide 0.3s ease-out;
+        }
+
+        @keyframes msgSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message.mine {
+            border-left-color: #FFB347;
+            background: #fff5e6;
+            margin-left: 1rem;
+        }
+
+        .msg-header {
+            font-size: 0.8rem;
+            color: #FFB347;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .msg-img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            border: 1px solid #f0f0f0;
+        }
+
+        .msg-del {
+            font-size: 0.75rem;
+            color: #888;
+            cursor: pointer;
+            margin-top: 0.4rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .message:hover .msg-del {
+            opacity: 1;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 0.8rem;
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 0.75rem;
+        }
+
+        .input-area .btn {
+            padding: 0.75rem 1.2rem;
+            margin: 0;
+        }
+
+        /* GRID */
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            border: 3px solid white;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.15);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav {
+                flex-direction: column;
+            }
+
+            .nav-btn,
+            .logout-btn {
+                width: 100%;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .records-grid,
+            .home-grid,
+            .char-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .messages-box {
+                height: 400px;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f3f0;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #FFB347;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF9F43;
+        }
+    </style>
+    <!-- 高德地图 API -->
+    <script src="https://webapi.amap.com/maps?v=2.0&key=4cfd25329040b99470e938676510023f"></script>
+</head>
+<body>
+    <!-- LOGIN -->
+    <div class="screen active" id="loginScreen">
+        <div class="login-wrapper">
+            <div class="login-header">
+                <h1>Our Story</h1>
+                <p>Share memories together</p>
+            </div>
+            <div class="login-box">
+                <div class="input-group">
+                    <label>Access Code</label>
+                    <input type="password" id="pwd" placeholder="Enter code" onkeypress="if(event.key==='Enter') login()">
+                </div>
+                <button class="login-btn" onclick="login()">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SELECT -->
+    <div class="screen" id="selectScreen">
+        <div class="deco-items-bg" id="selectDecos"></div>
+        <div class="select-wrapper">
+            <div class="select-header">
+                <h1 id="selectTitle">Who Are You?</h1>
+                <p id="selectDesc">Choose your avatar</p>
+            </div>
+
+            <div class="char-carousel">
+                <button class="carousel-btn carousel-btn-left" onclick="prevCharacter()">‹</button>
+
+                <div class="carousel-container">
+                    <div class="carousel-slot" id="charSlot"></div>
+                </div>
+
+                <button class="carousel-btn carousel-btn-right" onclick="nextCharacter()">›</button>
+            </div>
+
+            <div class="carousel-indicators" id="carouselIndicators"></div>
+
+            <button class="btn btn-primary" style="margin-top: 2rem; width: 200px; margin-left: auto; margin-right: auto; display: block;" onclick="confirmCharacter()">Confirm</button>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="screen" id="mainScreen">
+        <div class="header">
+            <div class="header-inner">
+                <h1>Our Story</h1>
+                <div class="nav">
+                    <button class="nav-btn active" onclick="goPage('chat')">Chat</button>
+                    <button class="nav-btn" onclick="goPage('travel')">Travel</button>
+                    <button class="nav-btn" onclick="goPage('food')">Food</button>
+                    <button class="nav-btn" onclick="goPage('map')">Map</button>
+                    <button class="nav-btn" onclick="goPage('timeline')">Timeline</button>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="characters-display">
+                <div class="character-container" id="charDisplayLeft"></div>
+                <div class="character-container" id="charDisplayRight"></div>
+            </div>
+            <div class="container">
+                <!-- HOME (Removed - duplicated with select screen) -->
+
+                <!-- CHAT -->
+                <div class="page active" id="chat">
+                    <h2 class="page-title">Messages</h2>
+                    <div class="messages-box" id="msgList"></div>
+                    <div class="input-area">
+                        <input type="text" id="msgText" placeholder="Say something...">
+                        <button class="btn btn-secondary" onclick="toggleEmoji()" style="padding: 0.6rem 0.8rem;">😊</button>
+                        <label style="cursor: pointer;">
+                            <input type="file" accept="image/*" onchange="previewMsgImg(this)" style="display: none;">
+                            <span class="btn btn-secondary" style="display: block; margin: 0;">📷</span>
+                        </label>
+                        <button class="btn btn-primary" onclick="sendMsg()">Send</button>
+                    </div>
+                    <div id="emojiPanel" style="display: none; background: white; border-radius: 8px; padding: 1rem; margin-top: 1rem; border: 2px solid #FFB347;">
+                        <div id="emojiList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 0.5rem;"></div>
+                    </div>
+                    <div id="msgImgPreview" style="margin-top: 1rem;"></div>
+                </div>
+
+                <!-- TRAVEL -->
+                <div class="page" id="travel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 class="page-title" style="margin-bottom: 0;">Travel</h2>
+                        <button class="btn btn-primary btn-small" onclick="toggleTravel()">+ New</button>
+                    </div>
+
+                    <div id="travelForm" style="display: none; max-width: 600px; margin-bottom: 2rem;">
+                        <div class="card">
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" id="tLoc" placeholder="Where?">
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="tDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Notes</label>
+                                <textarea id="tNotes" placeholder="Your thoughts..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Rating</label>
+                                <div class="star-rating" id="tStars">
+                                    <span onclick="setRate('t', 1)">★</span>
+                                    <span onclick="setRate('t', 2)">★</span>
+                                    <span onclick="setRate('t', 3)">★</span>
+                                    <span onclick="setRate('t', 4)">★</span>
+                                    <span onclick="setRate('t', 5)">★</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="getPos('t')">📍 Get</button>
+                                <div id="tPos" style="margin-top: 0.5rem; font-size: 0.85rem; color: #888;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label>Photos</label>
+                                <div class="file-upload" onclick="document.getElementById('tPhotos').click()">
+                                    + Add Photos
+                                    <input type="file" id="tPhotos" accept="image/*" multiple onchange="previewPhotos(this, 't')">
+                                </div>
+                                <div class="preview-imgs" id="tPreview"></div>
+                            </div>
+                            <div class="buttons">
+                                <button class="btn btn-primary" onclick="saveTravel()">Save</button>
+                                <button class="btn btn-secondary" onclick="toggleTravel()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="records-grid" id="tGrid"></div>
+                </div>
+
+                <!-- FOOD -->
+                <div class="page" id="food">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 class="page-title" style="margin-bottom: 0;">Food</h2>
+                        <button class="btn btn-primary btn-small" onclick="toggleFood()">+ New</button>
+                    </div>
+
+                    <div id="foodForm" style="display: none; max-width: 600px; margin-bottom: 2rem;">
+                        <div class="card">
+                            <div class="form-group">
+                                <label>Restaurant</label>
+                                <input type="text" id="fRest" placeholder="Name?">
+                            </div>
+                            <div class="form-group">
+                                <label>Dish</label>
+                                <input type="text" id="fDish" placeholder="What?">
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="fDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Notes</label>
+                                <textarea id="fNotes" placeholder="Taste..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" id="fLoc" placeholder="Where?">
+                            </div>
+                            <div id="fPos" style="font-size: 0.9rem; color: #999; margin-top: 0.5rem;"></div>
+                            <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="getPos('f')">📍 Get Location</button>
+                            <div class="form-group">
+                                <label>Rating</label>
+                                <div class="star-rating" id="fStars">
+                                    <span onclick="setRate('f', 1)">★</span>
+                                    <span onclick="setRate('f', 2)">★</span>
+                                    <span onclick="setRate('f', 3)">★</span>
+                                    <span onclick="setRate('f', 4)">★</span>
+                                    <span onclick="setRate('f', 5)">★</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Photos</label>
+                                <div class="file-upload" onclick="document.getElementById('fPhotos').click()">
+                                    + Add Photos
+                                    <input type="file" id="fPhotos" accept="image/*" multiple onchange="previewPhotos(this, 'f')">
+                                </div>
+                                <div class="preview-imgs" id="fPreview"></div>
+                            </div>
+                            <div class="buttons">
+                                <button class="btn btn-primary" onclick="saveFood()">Save</button>
+                                <button class="btn btn-secondary" onclick="toggleFood()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="records-grid" id="fGrid"></div>
+                </div>
+
+                <!-- MAP -->
+                <div class="page" id="map">
+                    <h2 class="page-title">Travel Map</h2>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <button class="btn btn-primary btn-small" onclick="playTraceAnimation()" id="playBtn">▶ Play Trace</button>
+                        <button class="btn btn-secondary btn-small" onclick="stopTraceAnimation()" id="stopBtn" style="display: none;">⏹ Stop</button>
+                    </div>
+                    <div id="mapContainer" style="width: 100%; height: 600px; border-radius: 8px; border: 2px solid #FFB347; overflow: hidden;"></div>
+                </div>
+
+                <!-- TIMELINE -->
+                <div class="page" id="timeline">
+                    <h2 class="page-title">Travel Timeline</h2>
+                    <div id="timelineContainer" style="max-width: 800px; margin: 0 auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAME SELECT MODAL (已弃用，保留以兼容) -->
+    <div class="modal" id="nameModal" style="display: none; background: rgba(0,0,0,0.6);"></div>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal" onclick="closeModal()">
+        <img id="modalImg" class="modal-img">
+        <div class="modal-close" onclick="closeModal()">✕</div>
+    </div>
+
+    <script>
+        const PASSWORDS = {
+            "2016": { user: "u1", name: "HQQ", desc: "✨ Golden Heart" },
+            "2026": { user: "u2", name: "OYY", desc: "💙 Blue Soul" }
+        };
+        const CHARS = ["HQQ", "OYY"];
+        const EMOJIS = ["😂", "😍", "🥰", "😘", "🤔", "😱", "🎉", "🎊", "💕", "💖", "💗", "💝", "🌟", "⭐", "✨", "🔥", "😎", "👍", "👏", "🙌", "🤝", "😇", "😄", "😆", "😋", "😜", "🤪", "😌", "😍", "🥳", "🤩"];
+
+        let currentUserInfo = null;
+
+        // 所有可用的像素小人角色
+        const PIXEL_CHARS = [
+            { name: "新体操をする子", file: "新体操をする子.png" },
+            { name: "どんたく", file: "どんたく.png" },
+            { name: "ぬれおかきマン", file: "ぬれおかきマン.png" },
+            { name: "カボチャくん", file: "カボチャくん.png" },
+            { name: "クリスマスポンチョを着た子", file: "クリスマスポンチョを着た子.png" },
+            { name: "ゾンビの女の子", file: "ゾンビの女の子.png" },
+            { name: "パンイチでプロポーズの人", file: "パンイチでプロポーズの人.png" },
+            { name: "ビキニの女の子　水色", file: "ビキニの女の子　水色.png" },
+            { name: "ピエロさん", file: "ピエロさん.png" },
+            { name: "ペロ美ちゃん", file: "ペロ美ちゃん.png" },
+            { name: "マスクマン", file: "マスクマン.png" },
+            { name: "卒園の女の子", file: "卒園の女の子.png" },
+            { name: "山笠", file: "山笠.png" },
+            { name: "後田 低志", file: "後田 低志（うしろだ ひくし）.png" },
+            { name: "後田 アイドルver", file: "後田 低志（うしろだ ひくし）・アイドルver.png" },
+            { name: "着物を着た子", file: "着物を着た子.png" },
+            { name: "空飛ぶはだかのプリンス", file: "空飛ぶはだかのプリンス.png" },
+            { name: "羽子板を持った女の子", file: "羽子板を持った女の子.png" },
+            { name: "花月 カヲル 刀ver", file: "花月 カヲル（かげつ かおる）・刀ver.png" },
+            { name: "花月 カヲル 手裏剣ver", file: "花月 カヲル（かげつ かおる）・手裏剣ver.png" },
+            { name: "赤ちゃんスイスイ", file: "赤ちゃんスイスイ.png" }
+        ];
+
+        // 装饰元素配置
+        const DECORATIONS = {
+            select: [
+                { src: "桜.png", class: "deco-sprite1" },
+                { src: "かき氷.png", class: "deco-sprite2" },
+                { src: "こっち向きのダックスフンド.png", class: "deco-sprite3" },
+                { src: "電車（後尾車）.png", class: "deco-sprite4" }
+            ],
+            chat: [
+                { src: "イチゴ.png", class: "deco-sprite1" },
+                { src: "桜.png", class: "deco-sprite2" },
+                { src: "ひまわり.png", class: "deco-sprite3" },
+                { src: "虹.png", class: "deco-sprite4" }
+            ],
+            travel: [
+                { src: "ひこうき.png", class: "deco-sprite1" },
+                { src: "富士山と日の出.png", class: "deco-sprite2" },
+                { src: "桜.png", class: "deco-sprite3" },
+                { src: "虹.png", class: "deco-sprite4" }
+            ],
+            food: [
+                { src: "ウエディングケーキ.png", class: "deco-sprite1" },
+                { src: "かき氷.png", class: "deco-sprite2" },
+                { src: "イチゴ.png", class: "deco-sprite3" },
+                { src: "ぶたまん.png", class: "deco-sprite4" }
+            ],
+            map: [
+                { src: "赤い乗用車.png", class: "deco-sprite1" },
+                { src: "ひこうき.png", class: "deco-sprite2" },
+                { src: "スカイツリー.png", class: "deco-sprite3" },
+                { src: "サタケ象.png", class: "deco-sprite4" }
+            ],
+            timeline: [
+                { src: "太陽.png", class: "deco-sprite1" },
+                { src: "桜.png", class: "deco-sprite2" },
+                { src: "ひまわり.png", class: "deco-sprite3" },
+                { src: "虹.png", class: "deco-sprite4" }
+            ]
+        };
+
+        let user = null, selectedChar = 0;
+        let db = { msg: [], travel: [], food: [] };
+        let tRating = 0, fRating = 0, tPhotos = [], fPhotos = [];
+        let msgImg = null;
+
+        function login() {
+            const pwd = document.getElementById("pwd").value;
+            if (PASSWORDS[pwd]) {
+                currentUserInfo = PASSWORDS[pwd];
+                user = currentUserInfo.user;
+                CHARS[currentUserInfo.user === "u1" ? 0 : 1] = currentUserInfo.name;
+                document.getElementById("loginScreen").classList.remove("active");
+                document.getElementById("selectScreen").classList.add("active");
+                initSelectScreen();
+            } else alert("Wrong code");
+        }
+
+        function selectChar(idx) {
+            selectedChar = idx;
+            user = idx === 0 ? "u1" : "u2";  // 保持兼容，idx为0时为u1，否则为u2
+            CHARS[0] = PIXEL_CHARS[0]?.name || "HQQ";  // 更新角色名称
+            CHARS[1] = PIXEL_CHARS[idx]?.name || "OYY";  // 当前选中的角色作为第二个
+            document.getElementById("selectScreen").classList.remove("active");
+            document.getElementById("mainScreen").classList.add("active");
+            load();
+            render();
+        }
+
+        function logout() {
+            const onlineUsers = JSON.parse(localStorage.getItem("onlineUsers") || "{}");
+            delete onlineUsers[user];
+            localStorage.setItem("onlineUsers", JSON.stringify(onlineUsers));
+
+            document.getElementById("mainScreen").classList.remove("active");
+            document.getElementById("loginScreen").classList.add("active");
+            document.getElementById("pwd").value = "";
+
+            // 清空小人显示
+            document.getElementById("charDisplayLeft").innerHTML = "";
+            document.getElementById("charDisplayRight").innerHTML = "";
+        }
+
+        function load() {
+            const saved = localStorage.getItem("db");
+            if (saved) db = JSON.parse(saved);
+        }
+
+        function save() {
+            localStorage.setItem("db", JSON.stringify(db));
+        }
+
+        function goPage(p) {
+            document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
+            document.getElementById(p).classList.add("active");
+            document.querySelectorAll(".nav-btn").forEach(el => el.classList.remove("active"));
+            event.target.classList.add("active");
+            if (p === "travel") renderTravel();
+            if (p === "food") renderFood();
+            if (p === "chat") renderChat();
+            if (p === "map") {
+                setTimeout(() => initMap(), 100);
+            }
+            if (p === "timeline") renderTimeline();
+        }
+
+        // CHAT
+        function sendMsg() {
+            const txt = document.getElementById("msgText").value.trim();
+            if (!txt && !msgImg) return;
+            db.msg.push({ id: Date.now(), user: user, txt, img: msgImg, time: new Date().toLocaleString() });
+            document.getElementById("msgText").value = "";
+            msgImg = null;
+            document.getElementById("msgImgPreview").innerHTML = "";
+            save();
+            renderChat();
+        }
+
+        function previewMsgImg(i) {
+            if (i.files[0]) {
+                const r = new FileReader();
+                r.onload = (e) => {
+                    msgImg = e.target.result;
+                    document.getElementById("msgImgPreview").innerHTML = `<img src="${msgImg}" style="max-width: 200px; border-radius: 8px; border: 2px solid #f0f0f0;">`;
+                };
+                r.readAsDataURL(i.files[0]);
+            }
+        }
+
+        function renderChat() {
+            const html = db.msg.length ? db.msg.map(m => `
+                <div class="message ${m.user === user ? "mine" : ""}">
+                    <div class="msg-header">${CHARS[m.user === "u1" ? 0 : 1]} · ${m.time}</div>
+                    <div>${m.txt}</div>
+                    ${m.img ? `<img src="${m.img}" class="msg-img" onclick="openModal(this.src)">` : ""}
+                    <div class="msg-del" onclick="delMsg(${m.id})">delete</div>
+                </div>
+            `).join("") : '<div class="empty"><div class="empty-icon">💬</div>No messages</div>';
+            document.getElementById("msgList").innerHTML = html;
+            document.getElementById("msgList").scrollTop = document.getElementById("msgList").scrollHeight;
+        }
+
+        function delMsg(id) {
+            db.msg = db.msg.filter(m => m.id !== id);
+            save();
+            renderChat();
+        }
+
+        function toggleEmoji() {
+            const panel = document.getElementById("emojiPanel");
+            const list = document.getElementById("emojiList");
+            if (panel.style.display === "none") {
+                panel.style.display = "block";
+                list.innerHTML = EMOJIS.map(e => `<button class="emoji-btn" onclick="addEmoji('${e}')">${e}</button>`).join("");
+            } else {
+                panel.style.display = "none";
+            }
+        }
+
+        function addEmoji(emoji) {
+            const input = document.getElementById("msgText");
+            input.value += emoji;
+            input.focus();
+        }
+        function toggleTravel() {
+            const f = document.getElementById("travelForm");
+            f.style.display = f.style.display === "none" ? "block" : "none";
+            if (f.style.display === "none") resetTravel();
+        }
+
+        function resetTravel() {
+            document.getElementById("tLoc").value = "";
+            document.getElementById("tDate").value = "";
+            document.getElementById("tNotes").value = "";
+            document.getElementById("tPos").innerHTML = "";
+            document.getElementById("tPreview").innerHTML = "";
+            tPhotos = [];
+            tRating = 0;
+            updateStars("t", 0);
+        }
+
+        function previewPhotos(i, t) {
+            Array.from(i.files).forEach(f => {
+                const r = new FileReader();
+                r.onload = (e) => {
+                    (t === "t" ? tPhotos : fPhotos).push(e.target.result);
+                    renderPreview(t);
+                };
+                r.readAsDataURL(f);
+            });
+        }
+
+        function renderPreview(t) {
+            const p = t === "t" ? tPhotos : fPhotos;
+            document.getElementById(t + "Preview").innerHTML = p.map((x, i) => `
+                <div class="preview-img">
+                    <img src="${x}">
+                    <button class="del" onclick="delPhoto(${i}, '${t}')">✕</button>
+                </div>
+            `).join("");
+        }
+
+        function delPhoto(i, t) {
+            (t === "t" ? tPhotos : fPhotos).splice(i, 1);
+            renderPreview(t);
+        }
+
+        function setRate(t, r) {
+            (t === "t" ? (tRating = r) : (fRating = r));
+            updateStars(t, r);
+        }
+
+        function updateStars(t, r) {
+            document.querySelectorAll(`#${t}Stars span`).forEach((s, i) => {
+                s.classList.toggle("active", i < r);
+            });
+        }
+
+        function getPos(t) {
+            navigator.geolocation?.getCurrentPosition(pos => {
+                const { latitude, longitude } = pos.coords;
+                document.getElementById(t + "Pos").innerText = `📍 ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+                document.getElementById(t + "Pos").dataset.lat = latitude;
+                document.getElementById(t + "Pos").dataset.lng = longitude;
+
+                // Reverse geocoding to get location name
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        const address = data.address;
+                        let locationName = address.city || address.town || address.county || address.state || "";
+                        if (address.country) {
+                            locationName = locationName ? `${locationName}, ${address.country}` : address.country;
+                        }
+                        if (locationName) {
+                            document.getElementById(t + "Loc").value = locationName;
+                        }
+                    })
+                    .catch(() => {
+                        // If API fails, user can still enter manually
+                    });
+            });
+        }
+
+        function saveTravel() {
+            const loc = document.getElementById("tLoc").value;
+            const date = document.getElementById("tDate").value;
+            if (!loc || !date) return alert("Fill all");
+            const pos = document.getElementById("tPos").dataset;
+            db.travel.push({ id: Date.now(), user: user, loc, date, notes: document.getElementById("tNotes").value, rating: tRating, lat: pos.lat || null, lng: pos.lng || null, photos: tPhotos });
+            save();
+            resetTravel();
+            toggleTravel();
+            renderTravel();
+        }
+
+        function renderTravel() {
+            const userRecords = db.travel.filter(t => !t.user || t.user === user);
+            document.getElementById("tGrid").innerHTML = userRecords.length ? userRecords.map(t => `
+                <div class="card">
+                    <div class="card-title">${t.loc}</div>
+                    <div class="card-meta">${t.date}${t.user ? ` · ${CHARS[t.user === "u1" ? 0 : 1]}` : ""}</div>
+                    ${t.lat ? `<div class="card-meta">📍 ${t.lat}, ${t.lng}</div>` : ""}
+                    <div class="card-rating">${"★".repeat(t.rating)}</div>
+                    ${t.notes ? `<div class="card-text">${t.notes}</div>` : ""}
+                    ${t.photos.length ? `<div class="card-images">${t.photos.map(x => `<img class="card-img" src="${x}" onclick="openModal(this.src)">`).join("")}</div>` : ""}
+                    <button class="btn btn-danger btn-small" style="margin-top: 1rem;" onclick="delTravel(${t.id})">Delete</button>
+                </div>
+            `).join("") : '<div class="empty"><div class="empty-icon">✈️</div>No entries</div>';
+        }
+
+        function delTravel(id) {
+            if (confirm("Delete?")) {
+                db.travel = db.travel.filter(t => t.id !== id);
+                save();
+                renderTravel();
+            }
+        }
+
+        // FOOD
+        function toggleFood() {
+            const f = document.getElementById("foodForm");
+            f.style.display = f.style.display === "none" ? "block" : "none";
+            if (f.style.display === "none") resetFood();
+        }
+
+        function resetFood() {
+            document.getElementById("fRest").value = "";
+            document.getElementById("fDish").value = "";
+            document.getElementById("fDate").value = "";
+            document.getElementById("fNotes").value = "";
+            document.getElementById("fLoc").value = "";
+            document.getElementById("fPos").innerHTML = "";
+            document.getElementById("fPreview").innerHTML = "";
+            fPhotos = [];
+            fRating = 0;
+            updateStars("f", 0);
+        }
+
+        function saveFood() {
+            const rest = document.getElementById("fRest").value;
+            const dish = document.getElementById("fDish").value;
+            const date = document.getElementById("fDate").value;
+            if (!rest || !dish || !date) return alert("Fill all");
+            const pos = document.getElementById("fPos").dataset;
+            db.food.push({ id: Date.now(), user: user, rest, dish, date, loc: document.getElementById("fLoc").value, notes: document.getElementById("fNotes").value, rating: fRating, lat: pos.lat || null, lng: pos.lng || null, photos: fPhotos });
+            save();
+            resetFood();
+            toggleFood();
+            renderFood();
+        }
+
+        function renderFood() {
+            const userRecords = db.food.filter(f => !f.user || f.user === user);
+            document.getElementById("fGrid").innerHTML = userRecords.length ? userRecords.map(f => `
+                <div class="card">
+                    <div class="card-title">${f.rest}</div>
+                    <div class="card-meta">${f.dish} · ${f.date}${f.user ? ` · ${CHARS[f.user === "u1" ? 0 : 1]}` : ""}</div>
+                    ${f.loc ? `<div class="card-meta" style="color: #666; font-size: 0.9rem;">📍 ${f.loc}</div>` : ""}
+                    <div class="card-rating">${"★".repeat(f.rating)}</div>
+                    ${f.notes ? `<div class="card-text">${f.notes}</div>` : ""}
+                    ${f.photos.length ? `<div class="card-images">${f.photos.map(x => `<img class="card-img" src="${x}" onclick="openModal(this.src)">`).join("")}</div>` : ""}
+                    <button class="btn btn-danger btn-small" style="margin-top: 1rem;" onclick="delFood(${f.id})">Delete</button>
+                </div>
+            `).join("") : '<div class="empty"><div class="empty-icon">🍽️</div>No entries</div>';
+        }
+
+        function delFood(id) {
+            if (confirm("Delete?")) {
+                db.food = db.food.filter(f => f.id !== id);
+                save();
+                renderFood();
+            }
+        }
+
+        function openModal(src) {
+            document.getElementById("modalImg").src = src;
+            document.getElementById("modal").classList.add("active");
+        }
+
+        function closeModal() {
+            document.getElementById("modal").classList.remove("active");
+        }
+
+        function render() {
+            renderChat();
+            renderTravel();
+            renderFood();
+        }
+
+        // MAP
+        let amap = null;
+        let polyline = null;
+        let markers = [];
+        let isPlayingTrace = false;
+
+        function initMap() {
+            if (!window.AMap) {
+                alert("高德地图 API 加载失败。请确保你的 API Key 有效。\n\n获取方式：访问 https://lbs.amap.com/ 注册账号并获取 Web API Key");
+                return;
+            }
+
+            if (amap) return;
+
+            const mapContainer = document.getElementById("mapContainer");
+            amap = new AMap.Map(mapContainer, {
+                zoom: 5,
+                center: [104.0658, 30.5728], // 默认中心（中国）
+                pitch: 0,
+                rotation: 0,
+                viewMode: "2D",
+            });
+
+            renderMapMarkers();
+        }
+
+        function renderMapMarkers() {
+            if (!amap) return;
+
+            // 清除旧标记
+            markers.forEach(m => m.remove?.());
+            markers = [];
+            if (polyline) polyline.setMap(null);
+
+            // 获取当前用户的所有有坐标的旅游记录
+            const userRecords = db.travel.filter(t => !t.user || t.user === user);
+            const validRecords = userRecords.filter(t => t.lat && t.lng).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (validRecords.length === 0) {
+                document.getElementById("mapContainer").innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">No travel records yet</div>';
+                return;
+            }
+
+            // 创建连接线
+            const points = validRecords.map(t => [parseFloat(t.lng), parseFloat(t.lat)]);
+            polyline = new AMap.Polyline({
+                path: points,
+                strokeColor: "#FF9F43",
+                strokeWeight: 3,
+                strokeOpacity: 0.7,
+                strokeStyle: "solid",
+                lineJoin: "miter",
+            });
+            polyline.setMap(amap);
+
+            // 添加标记
+            validRecords.forEach((t, idx) => {
+                const marker = new AMap.Marker({
+                    position: new AMap.LngLat(parseFloat(t.lng), parseFloat(t.lat)),
+                    title: t.loc || "Unknown",
+                    content: `<div style="background: #FFB347; padding: 0.5rem 0.8rem; border-radius: 8px; font-size: 0.9rem; border: 2px solid #FF9F43; cursor: pointer; font-weight: bold;">${idx + 1}</div>`,
+                });
+                marker.setMap(amap);
+
+                // 点击标记显示详情
+                marker.on("click", () => {
+                    infoWindow = new AMap.InfoWindow({
+                        content: `<div style="padding: 1rem; max-width: 250px; font-size: 0.9rem;"><strong>${t.loc}</strong><br/>${t.date}<br/>${t.notes || ""}${t.photos.length ? "<br/>📸 " + t.photos.length + " photos" : ""}</div>`,
+                        offset: new AMap.Pixel(0, -30),
+                    });
+                    infoWindow.open(amap, marker.getPosition());
+                });
+
+                markers.push(marker);
+            });
+
+            // 自动调整地图缩放
+            const bounds = new AMap.Bounds(validRecords.map(t => [parseFloat(t.lng), parseFloat(t.lat)]));
+            amap.setBounds(bounds);
+        }
+
+        let traceAnimationIndex = 0;
+        let infoWindow = null;
+
+        function playTraceAnimation() {
+            const validRecords = db.travel.filter(t => t.lat && t.lng).sort((a, b) => new Date(a.date) - new Date(b.date));
+            if (validRecords.length < 2) return alert("需要至少 2 个打卡点");
+
+            isPlayingTrace = true;
+            document.getElementById("playBtn").style.display = "none";
+            document.getElementById("stopBtn").style.display = "block";
+            traceAnimationIndex = 0;
+
+            function animateStep() {
+                if (!isPlayingTrace || traceAnimationIndex >= validRecords.length) {
+                    stopTraceAnimation();
+                    return;
+                }
+
+                const record = validRecords[traceAnimationIndex];
+                const lngLat = new AMap.LngLat(parseFloat(record.lng), parseFloat(record.lat));
+
+                // 移动地图中心
+                amap.setCenter(lngLat);
+
+                // 显示信息窗口
+                if (infoWindow) infoWindow.close();
+                infoWindow = new AMap.InfoWindow({
+                    content: `<div style="padding: 1rem; max-width: 250px; font-size: 0.9rem;"><strong>${record.loc}</strong><br/>${record.date}<br/>${record.notes || ""}</div>`,
+                    offset: new AMap.Pixel(0, -30),
+                });
+                infoWindow.open(amap, lngLat);
+
+                traceAnimationIndex++;
+                setTimeout(animateStep, 1500);
+            }
+
+            animateStep();
+        }
+
+        function stopTraceAnimation() {
+            isPlayingTrace = false;
+            document.getElementById("playBtn").style.display = "block";
+            document.getElementById("stopBtn").style.display = "none";
+            if (infoWindow) infoWindow.close();
+        }
+
+        // TIMELINE
+        function renderTimeline() {
+            const userRecords = db.travel.filter(t => !t.user || t.user === user);
+            const validRecords = userRecords.filter(t => t.lat && t.lng).sort((a, b) => new Date(b.date) - new Date(a.date));
+            const container = document.getElementById("timelineContainer");
+
+            if (validRecords.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #999; padding: 2rem;">No travel records yet</div>';
+                return;
+            }
+
+            container.innerHTML = validRecords.map((t, idx) => `
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${t.date}</div>
+                        <div class="timeline-title">${t.loc}</div>
+                        ${t.notes ? `<div class="timeline-notes">${t.notes}</div>` : ""}
+                        ${t.photos.length ? `<div class="timeline-photos">${t.photos.map(p => `<img src="${p}" class="timeline-photo" onclick="openModal(this.src)">`).join("")}</div>` : ""}
+                        <div class="timeline-rating">${"★".repeat(t.rating)}</div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // 初始化选择屏幕
+        let currentCharIndex = 0;
+        const basePathChars = "file:///C:/Users/CNBJLAP/Downloads/像素小人/";
+        const basePathDecos = "file:///C:/Users/CNBJLAP/Downloads/其他像素风素材/";
+
+        function initSelectScreen() {
+            const decoContainer = document.getElementById("selectDecos");
+            const decos = DECORATIONS.select || [];
+            decoContainer.innerHTML = decos.map(d =>
+                `<img src="${basePathDecos}${d.src}" alt="deco" class="deco-sprite ${d.class}">`
+            ).join("");
+
+            // 显示当前用户信息
+            if (currentUserInfo) {
+                document.getElementById("selectTitle").textContent = `Welcome, ${currentUserInfo.name}!`;
+                document.getElementById("selectDesc").textContent = currentUserInfo.desc;
+            }
+
+            // 初始化轮播
+            currentCharIndex = 0;
+            renderCarousel();
+            renderIndicators();
+
+            // 支持键盘方向键
+            document.addEventListener("keydown", (e) => {
+                if (document.getElementById("selectScreen").classList.contains("active")) {
+                    if (e.key === "ArrowLeft") prevCharacter();
+                    if (e.key === "ArrowRight") nextCharacter();
+                }
+            });
+        }
+
+        function renderCarousel() {
+            const slot = document.getElementById("charSlot");
+            const char = PIXEL_CHARS[currentCharIndex];
+
+            // 先淡出
+            slot.classList.remove("fade-in");
+            slot.classList.add("fade-out");
+
+            setTimeout(() => {
+                slot.innerHTML = `
+                    <div class="char-item" style="width: 100%; padding: 0;">
+                        <div class="char-pixel">
+                            <img src="${basePathChars}${char.file}" alt="${char.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2212%22%3E?%3C/text%3E%3C/svg%3E'">
+                        </div>
+                        <div class="char-name">${char.name}</div>
+                        <div class="char-desc">✨ Character</div>
+                    </div>
+                `;
+
+                // 再淡入
+                slot.classList.remove("fade-out");
+                slot.classList.add("fade-in");
+            }, 200);
+
+            // 更新指示器
+            document.querySelectorAll(".indicator").forEach((ind, idx) => {
+                ind.classList.toggle("active", idx === currentCharIndex);
+            });
+        }
+
+        function renderIndicators() {
+            const container = document.getElementById("carouselIndicators");
+            container.innerHTML = PIXEL_CHARS.map((_, idx) =>
+                `<div class="indicator ${idx === currentCharIndex ? "active" : ""}" onclick="jumpToCharacter(${idx})"></div>`
+            ).join("");
+        }
+
+        function nextCharacter() {
+            currentCharIndex = (currentCharIndex + 1) % PIXEL_CHARS.length;
+            renderCarousel();
+        }
+
+        function prevCharacter() {
+            currentCharIndex = (currentCharIndex - 1 + PIXEL_CHARS.length) % PIXEL_CHARS.length;
+            renderCarousel();
+        }
+
+        function jumpToCharacter(idx) {
+            currentCharIndex = idx;
+            renderCarousel();
+        }
+
+        function confirmCharacter() {
+            // 直接进入主界面，身份已通过密码确定
+            selectedChar = currentCharIndex;
+            localStorage.setItem("charIndex_" + user, selectedChar);  // 保存角色选择
+            document.getElementById("selectScreen").classList.remove("active");
+            document.getElementById("mainScreen").classList.add("active");
+            load();
+            render();
+            initCharacterDisplay();
+            checkOtherUserOnline();
+        }
+
+        function selectName(username) {
+            // 此函数不再使用，保留以兼容
+        }
+        function addPageDecorations(pageId, decoType) {
+            const page = document.getElementById(pageId);
+            if (!page || !DECORATIONS[decoType]) return;
+
+            let decoContainer = page.querySelector(".deco-items-bg");
+            if (!decoContainer) {
+                decoContainer = document.createElement("div");
+                decoContainer.className = "deco-items-bg";
+                decoContainer.style.position = "absolute";
+                page.style.position = "relative";
+                page.insertBefore(decoContainer, page.firstChild);
+            }
+
+            const basePathDecos = "file:///C:/Users/CNBJLAP/Downloads/其他像素风素材/";
+            const decos = DECORATIONS[decoType] || [];
+            decoContainer.innerHTML = decos.map(d =>
+                `<img src="${basePathDecos}${d.src}" alt="deco" class="deco-sprite ${d.class}" style="opacity: 0.3;">`
+            ).join("");
+        }
+
+        // 小人显示和交互
+        let otherUserOnlineTimeout = null;
+        let lastInteractionTime = 0;
+
+        function initCharacterDisplay() {
+            const char = PIXEL_CHARS[selectedChar];
+            const isHQQ = user === "u1";
+            const container = isHQQ ? document.getElementById("charDisplayLeft") : document.getElementById("charDisplayRight");
+
+            container.innerHTML = `
+                <div class="character-sprite ${isHQQ ? 'left' : 'right'}" id="charSprite"></div>
+                <div class="character-name">${CHARS[isHQQ ? 0 : 1]}</div>
+            `;
+
+            const sprite = document.getElementById("charSprite");
+            sprite.style.backgroundImage = `url('${basePathChars}${char.file}')`;
+            sprite.onclick = () => triggerInteraction();
+
+            // 跟踪在线状态
+            updateOnlineStatus();
+
+            // 定期检查另一个人是否在线
+            setInterval(checkOtherUserOnline, 2000);
+        }
+
+        function triggerInteraction() {
+            const now = Date.now();
+            if (now - lastInteractionTime < 500) return;
+            lastInteractionTime = now;
+
+            const sprite = document.getElementById("charSprite");
+            sprite.classList.remove("interact");
+            void sprite.offsetWidth;
+            sprite.classList.add("interact");
+
+            // 如果另一个人在线，也触发他的小人
+            const otherUserId = user === "u1" ? "u2" : "u1";
+            const onlineUsers = JSON.parse(localStorage.getItem("onlineUsers") || "{}");
+            if (onlineUsers[otherUserId]) {
+                const otherSprite = document.getElementById("charSpriteOther");
+                if (otherSprite && !otherSprite.classList.contains("interact")) {
+                    otherSprite.classList.add("interact");
+                    setTimeout(() => otherSprite.classList.remove("interact"), 600);
+                }
+            }
+        }
+
+        function updateOnlineStatus() {
+            const onlineUsers = JSON.parse(localStorage.getItem("onlineUsers") || "{}");
+            onlineUsers[user] = Date.now();
+            localStorage.setItem("onlineUsers", JSON.stringify(onlineUsers));
+        }
+
+        function checkOtherUserOnline() {
+            updateOnlineStatus();
+
+            const onlineUsers = JSON.parse(localStorage.getItem("onlineUsers") || "{}");
+            const otherUserId = user === "u1" ? "u2" : "u1";
+            const otherUserLastSeen = onlineUsers[otherUserId] || 0;
+            const isOtherUserOnline = (Date.now() - otherUserLastSeen) < 5000;
+
+            const otherContainer = user === "u1" ? document.getElementById("charDisplayRight") : document.getElementById("charDisplayLeft");
+
+            if (isOtherUserOnline && !document.getElementById("charSpriteOther")) {
+                displayOtherCharacter(otherContainer, otherUserId);
+            } else if (!isOtherUserOnline && document.getElementById("charSpriteOther")) {
+                otherContainer.innerHTML = "";
+            }
+        }
+
+        function displayOtherCharacter(container, otherUserId) {
+            // 获取另一个用户的选择（从 localStorage 的记录中推断）
+            const otherCharIndex = localStorage.getItem("charIndex_" + otherUserId) || 0;
+            const otherChar = PIXEL_CHARS[otherCharIndex];
+            const otherUserName = otherUserId === "u1" ? CHARS[0] : CHARS[1];
+            const isOtherHQQ = otherUserId === "u1";
+
+            container.innerHTML = `
+                <div class="character-sprite ${isOtherHQQ ? 'left' : 'right'}" id="charSpriteOther"></div>
+                <div class="character-name">${otherUserName}</div>
+            `;
+
+            const sprite = document.getElementById("charSpriteOther");
+            if (otherChar) {
+                sprite.style.backgroundImage = `url('${basePathChars}${otherChar.file}')`;
+            }
+            sprite.style.opacity = "0.7";
+        }
+
+        // 在页面加载时添加装饰
+        window.addEventListener("DOMContentLoaded", () => {
+            addPageDecorations("chat", "chat");
+            addPageDecorations("travel", "travel");
+            addPageDecorations("food", "food");
+            addPageDecorations("map", "map");
+            addPageDecorations("timeline", "timeline");
+        });
+
+        // 监听其他标签页的 localStorage 变化
+        window.addEventListener("storage", (e) => {
+            // 检测小人在线状态变化
+            if (e.key === "onlineUsers" || e.key === "charIndex_u1" || e.key === "charIndex_u2") {
+                if (document.getElementById("mainScreen").classList.contains("active")) {
+                    checkOtherUserOnline();
+                }
+            }
+
+            // 检测数据库变化（聊天消息、旅游、美食记录）
+            if (e.key === "db" && document.getElementById("mainScreen").classList.contains("active")) {
+                load();  // 重新加载数据库
+
+                // 重新渲染当前页面
+                const activePage = document.querySelector(".page.active");
+                if (activePage) {
+                    const pageId = activePage.id;
+                    if (pageId === "chat") renderChat();
+                    if (pageId === "travel") renderTravel();
+                    if (pageId === "food") renderFood();
+                    if (pageId === "map") initMap();
+                    if (pageId === "timeline") renderTimeline();
+                }
+            }
+        });
+
+        load();
+    </script>
+</body>
+</html>
