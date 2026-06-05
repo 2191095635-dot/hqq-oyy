@@ -2023,8 +2023,8 @@
 
         // 初始化选择屏幕
         let currentCharIndex = 0;
-        const basePathChars = "file:///C:/Users/CNBJLAP/Downloads/像素小人/";
-        const basePathDecos = "file:///C:/Users/CNBJLAP/Downloads/其他像素风素材/";
+        const basePathChars = "./images/characters/";
+        const basePathDecos = "./images/decorations/";
 
         function initSelectScreen() {
             const decoContainer = document.getElementById("selectDecos");
@@ -2133,7 +2133,7 @@
                 page.insertBefore(decoContainer, page.firstChild);
             }
 
-            const basePathDecos = "file:///C:/Users/CNBJLAP/Downloads/其他像素风素材/";
+            const basePathDecos = "./images/decorations/";
             const decos = DECORATIONS[decoType] || [];
             decoContainer.innerHTML = decos.map(d =>
                 `<img src="${basePathDecos}${d.src}" alt="deco" class="deco-sprite ${d.class}" style="opacity: 0.3;">`
